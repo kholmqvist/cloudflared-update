@@ -1,0 +1,9 @@
+The purpose of this script is to install cloudflared on linux systems where cloudflare's repo isn't supported.
+
+I'm using this script on RHEL, SLES and TrueNAS Scale
+
+The script has been tested on the following distributions:
+- RHEL 8
+- SLES 12
+- Ubuntu 20.04LTS
+- Debian 11
