@@ -1,12 +1,12 @@
 #!/bin/bash
-# Kenneth Holmqvist 2022
-# kholmqvist88@gmail.com
+# Kenneth Holmqvist
+# kholmqvist88 @ gmail.com
 #
 
 set -e
 
 # Variables
-filepath="/root"
+filepath="~/"
 os=""
 package="rpm" # Set default package type to rpm
 configFile="/etc/cloudflared/config.yml"
@@ -86,4 +86,3 @@ fi
 
 # Restart the cloudflared service
 systemctl restart cloudflared.service
-
