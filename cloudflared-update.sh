@@ -6,7 +6,7 @@
 set -e
 
 # Variables
-filepath="$HOME/"
+filepath="$HOME"
 os=""
 package="rpm" # Set default package type to rpm
 configFile="/etc/cloudflared/config.yml"
@@ -58,7 +58,9 @@ fi
 
 # If the file doesn't exist then download and install it
 if [ ! -f "$filepath/$filename" ]; then
-  wget -O "$filename" -P "$filepath" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename
+  #wget -O "$filename" -P "$filepath" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename
+  #use subshell to go to filepath and download the file
+  (cd "$filepath" && curl -O https://github.com/cloudflare/cloudflared/releases/latest/download/$filename)
 
   # Install Software on RHEL/Centos
   if [ "$os" = "redhat" ]; then
