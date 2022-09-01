@@ -43,7 +43,10 @@ fi
 
 # Check if wget is installed
 if [ ! -e /usr/bin/wget ]; then
-  echo "you need to install wget"
+  echo "wget is not installed!"
+  if [ "$os" == "redhat" ]; then
+    echo "example: yum install wget"
+  fi
   exit
 fi
 
