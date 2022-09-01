@@ -60,7 +60,7 @@ fi
 if [ ! -f "$filepath/$filename" ]; then
   #wget -O "$filename" -P "$filepath" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename
   #use subshell to go to filepath and download the file
-  (cd "$filepath" && curl -O https://github.com/cloudflare/cloudflared/releases/latest/download/$filename)
+  (cd "$filepath" && wget -O "$filename" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename)
 
   # Install Software on RHEL/Centos
   if [ "$os" = "redhat" ]; then
