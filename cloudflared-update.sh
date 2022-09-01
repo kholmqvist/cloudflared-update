@@ -41,6 +41,12 @@ if [ "$os" = "" ]; then
   exit
 fi
 
+# Check if wget is installed
+if [ ! -e /usr/bin/wget]; then
+  echo "you need to install wget"
+  exit
+fi
+
 # Determine if we need a RPM or DEB package
 if [ "$package" = "rpm" ]; then
   filename="cloudflared-linux-x86_64.rpm"
@@ -58,7 +64,6 @@ fi
 
 # If the file doesn't exist then download and install it
 if [ ! -f "$filepath/$filename" ]; then
-  #wget -O "$filename" -P "$filepath" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename
   #use subshell to go to filepath and download the file
   (cd "$filepath" && wget -O "$filename" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename)
 
