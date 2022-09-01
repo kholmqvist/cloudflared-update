@@ -10,32 +10,42 @@ filepath="$HOME"
 os=""
 package="rpm" # Set default package type to rpm
 configFile="/etc/cloudflared/config.yml"
+DISTRO=$(cat /etc/*-release | grep -w NAME | cut -d= -f2 | tr -d '"')
 
 # Check if i'm root otherwise exit
 if [ "$(whoami)" != "root" ]; then
-  echo "Please run as root! or use sudo"
+  echo "Please run as root or use sudo"
   exit
 fi
 
 # Check OS
-if [ -e /etc/redhat-release ]; then
+if [ "$DISTRO" == "Red Hat Enterprise Linux" ]; then
   os="redhat"
 fi
 
-if [ -e /etc/centos-release ]; then
+if [ "$DISTRO" == "CentOS Stream" ]; then
   os="redhat"
 fi
 
-if [ -e /etc/SuSE-release ]; then
+if [ "$DISTRO" == "Fedora Linux" ]; then
+  os="redhat"
+fi
+
+if [ "$DISTRO" == "SLES" ]; then
   os="suse"
 fi
 
-if [ -e /etc/debian_version ]; then
+if [ "$DISTO" == "Debian GNU/Linux" ]; then
   os="debian"
   package="deb"
 fi
 
-# Exit if OS is not supporte
+if [ "$DISTRO" == "Ubuntu" ]; then
+  os="debian"
+  package="deb"
+fi
+
+# Exit if OS is supported
 if [ "$os" = "" ]; then
   echo "This is not a supported distribution"
   exit
@@ -45,8 +55,17 @@ fi
 if [ ! -e /usr/bin/wget ]; then
   echo "wget is not installed!"
   if [ "$os" == "redhat" ]; then
-    echo "example: yum install wget"
+    echo "Please run: yum install wget"
   fi
+
+  if [ "$os" == "suse" ]; then
+    echo "Please run: zypper install wget"
+  fi
+
+  if [ "$os" == "debian" ]; then
+    echo "Please run: apt install wget"
+  fi
+
   exit
 fi
 
