@@ -42,7 +42,7 @@ if [ "$os" = "" ]; then
 fi
 
 # Check if wget is installed
-if [ ! -e /usr/bin/wget]; then
+if [ ! -e /usr/bin/wget ]; then
   echo "you need to install wget"
   exit
 fi
