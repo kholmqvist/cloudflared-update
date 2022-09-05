@@ -108,11 +108,11 @@ if [ ! -e /etc/cloudflared/config.yaml ] || [ ! -e /etc/cloudflared/config.yml ]
   exit
 fi
 
-if [ ! -e "$HOME"/.cloudflared/config.yaml ] || [ ! -e "$HOME"/.cloudflared/config.yaml ]; then
+if [ ! -e "$HOME"/.cloudflared/config.yaml ] || [ ! -e "$HOME"/.cloudflared/config.yml ]; then
   exit
 fi
 
-if [ ! -e /usr/local/etc/cloudflared/config.yaml ] || [ ! -e /usr/local/etc/cloudflared/config.yaml ]; then
+if [ ! -e /usr/local/etc/cloudflared/config.yaml ] || [ ! -e /usr/local/etc/cloudflared/config.yml ]; then
   exit
 fi
 
