@@ -103,16 +103,16 @@ if [ ! -f "$filepath/$filename" ]; then
   fi
 fi
 
-# Check if config.yaml exists
-if [ ! -e /etc/cloudflared/config.yaml ]; then
+# Check if config.yaml or config.yml exists
+if [ ! -e /etc/cloudflared/config.yaml ] || [ ! -e /etc/cloudflared/config.yml ]; then
   exit
 fi
 
-if [ ! -e "$HOME"/.cloudflared/config.yaml ]; then
+if [ ! -e "$HOME"/.cloudflared/config.yaml ] || [ ! -e "$HOME"/.cloudflared/config.yaml ]; then
   exit
 fi
 
-if [ ! -e /usr/local/etc/cloudflared/config.yaml ]; then
+if [ ! -e /usr/local/etc/cloudflared/config.yaml ] || [ ! -e /usr/local/etc/cloudflared/config.yaml ]; then
   exit
 fi
 
