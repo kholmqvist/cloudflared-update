@@ -52,7 +52,7 @@ if [ "$os" = "" ]; then
 fi
 
 # Check if wget is installed
-if [ ! -e /usr/bin/wget ]; then
+if [ ! -e $(which wget) ]; then
   echo "wget is not installed!"
   if [ "$os" == "redhat" ]; then
     echo "Please run: yum install wget"
@@ -103,7 +103,6 @@ if [ ! -f "$filepath/$filename" ]; then
   fi
 fi
 
-
 # Check if cloudflared service exist else install it
 if ! systemctl restart cloudflared | head -c1 | grep -E '.'; then
   if [ -e "$configFile" ]; then
@@ -111,7 +110,6 @@ if ! systemctl restart cloudflared | head -c1 | grep -E '.'; then
   fi
   cloudflared service install
 fi
-
 
 # Restart the cloudflared service
 systemctl restart cloudflared.service
