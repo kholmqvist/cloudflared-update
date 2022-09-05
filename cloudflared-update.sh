@@ -103,6 +103,20 @@ if [ ! -f "$filepath/$filename" ]; then
   fi
 fi
 
+# Check if config.yaml or config.yml exists
+if [ ! -e /etc/cloudflared/config.yaml ]; then
+  exit
+fi
+
+if [ ! -e "$HOME"/.cloudflared/config.yaml ]; then
+  exit
+fi
+
+if [ ! -e /usr/local/etc/cloudflared/config.yaml ]; then
+  exit
+fi
+
+
 # Check if cloudflared service exist else install it
 if ! systemctl restart cloudflared | head -c1 | grep -E '.'; then
   if [ -e "$configFile" ]; then
