@@ -52,7 +52,7 @@ if [ "$os" = "" ]; then
 fi
 
 # Check if wget is installed
-if [ ! command -v wget ]; then
+if ! command -v wget &> /dev/null ; then
   echo "wget is not installed!"
   if [ "$os" == "redhat" ]; then
     echo "Please run: yum install wget"
