@@ -35,7 +35,7 @@ if [ "$DISTRO" == "SLES" ]; then
   os="suse"
 fi
 
-if [ "$DISTO" == "Debian GNU/Linux" ]; then
+if [ "$DISTRO" == "Debian GNU/Linux" ]; then
   os="debian"
   package="deb"
 fi
