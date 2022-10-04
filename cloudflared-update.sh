@@ -118,7 +118,7 @@ fi
 
 
 # Check if cloudflared service exist else install it
-if ! systemctl restart cloudflared | head -c1 | grep -E '.'; then
+if ! systemctl restart cloudflared.service | head -c1 | grep -E '.'; then
   if [ -e "$configFile" ]; then
     rm "$configFile"
   fi
