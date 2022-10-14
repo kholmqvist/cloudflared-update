@@ -5,7 +5,7 @@
 #
 
 # Include dependencies check
-. dependencies.sh
+. $(pwd)/dependencies.sh
 
 set -e
 
