@@ -49,14 +49,8 @@ if [ ! -e /usr/local/etc/cloudflared/config.yaml ] || [ ! -e /usr/local/etc/clou
   exit
 fi
 
-
-# Check if cloudflared service exist else install it
-if ! systemctl restart cloudflared.service | head -c1 | grep -E '.'; then
-  if [ -e "$configFile" ]; then
-    rm "$configFile"
-  fi
-  cloudflared service install
-fi
+# Install cloudflared service
+install_cloudflared_service
 
 # Restart the cloudflared service
 systemctl restart cloudflared.service

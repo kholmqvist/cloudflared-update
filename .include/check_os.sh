@@ -18,7 +18,7 @@ function check_distribution() {
   fi
 
   if [ "$DISTRO" == "Debian GNU/Linux" ]; then
-    os="debian"
+    os=""
   fi
 
   if [ "$DISTRO" == "Ubuntu" ]; then
