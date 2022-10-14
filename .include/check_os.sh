@@ -24,4 +24,10 @@ function check_distribution() {
   if [ "$DISTRO" == "Ubuntu" ]; then
     os="ubuntu"
   fi
+
+  # Exit if OS is supported
+  if [ "$os" = "" ]; then
+    echo "This is not a supported distribution"
+    exit
+  fi
 }

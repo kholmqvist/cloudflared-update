@@ -23,12 +23,9 @@ if [ "$(whoami)" != "root" ]; then
 fi
 
 
+# Check if this is a supported linux distribution
 check_distribution
-# Exit if OS is supported
-if [ "$os" = "" ]; then
-  echo "This is not a supported distribution"
-  exit
-fi
+
 
 # Check if curl is installed
 check_curl
