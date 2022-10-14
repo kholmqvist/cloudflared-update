@@ -5,8 +5,8 @@
 #
 
 # Include dependencies check
-DIRECTORY=$(cd `dirname $0` && pwd)
-. $DIRECTORY/dependencies.sh
+DIRECTORY=`dirname $0`
+. $(dirname $0)/dependencies.sh
 
 set -e
 
