@@ -1,14 +1,13 @@
 #!/bin/bash
 # Kenneth Holmqvist
 # kholmqvist88 @ gmail.com
+# October 14th 2022
 #
 
 set -e
 
 # Variables
-filepath="$HOME"
 os=""
-package="rpm" # Set default package type to rpm
 configFile="/etc/cloudflared/config.yml"
 DISTRO=$(cat /etc/*-release | grep -w NAME | cut -d= -f2 | tr -d '"')
 
@@ -24,25 +23,19 @@ if [ "$DISTRO" == "Red Hat Enterprise Linux" ]; then
 fi
 
 if [ "$DISTRO" == "CentOS Stream" ]; then
-  os="redhat"
+  os="centos"
 fi
 
 if [ "$DISTRO" == "Fedora Linux" ]; then
   os="redhat"
 fi
 
-if [ "$DISTRO" == "SLES" ]; then
-  os="suse"
-fi
-
 if [ "$DISTRO" == "Debian GNU/Linux" ]; then
   os="debian"
-  package="deb"
 fi
 
 if [ "$DISTRO" == "Ubuntu" ]; then
-  os="debian"
-  package="deb"
+  os="ubuntu"
 fi
 
 # Exit if OS is supported
@@ -51,57 +44,84 @@ if [ "$os" = "" ]; then
   exit
 fi
 
-# Check if wget is installed
-if ! command -v wget &> /dev/null ; then
-  echo "wget is not installed!"
-  if [ "$os" == "redhat" ]; then
-    echo "Please run: yum install wget"
-  fi
 
-  if [ "$os" == "suse" ]; then
-    echo "Please run: zypper install wget"
-  fi
+# Install Software on RHEL/Centos
+if [ "$os" = "redhat" ]; then
+  # Add cloudflared.repo to /etc/yum.repos.d/
+  curl -fsSl https://pkg.cloudflare.com/cloudflared-ascii.repo | sudo tee /etc/yum.repos.d/cloudflared.repo
 
-  if [ "$os" == "debian" ]; then
-    echo "Please run: apt install wget"
-  fi
+  #update repo
+  sudo yum update
 
-  exit
+  # install cloudflared
+  sudo yum install cloudflared
 fi
 
-# Determine if we need a RPM or DEB package
-if [ "$package" = "rpm" ]; then
-  filename="cloudflared-linux-x86_64.rpm"
+if [ "$os" = "centos" ]; then
+  # This requires dnf config-manager
+  # Add cloudflared.repo to config-manager
+  sudo dnf config-manager --add-repo https://pkg.cloudflare.com/cloudflared-ascii.repo
+
+  # install cloudflared
+  sudo dnf install cloudflared
 fi
 
-if [ "$package" = "deb" ]; then
-  filename="cloudflared-linux-amd64.deb"
-fi
+if [ "$os" = "debian" ]; then
+  OS_LEVEL=$(cat /etc/*-release | grep -w VERSION_CODENAME | cut -d= -f2 | tr -d '"')
 
-# Delete cloudflared-linux-amd64.deb. It's probably an old version
-if [ -f "$filepath/$filename" ]; then
-  echo "Deleting: $filename"
-  rm "$filepath/$filename"
-fi
+  if [ "$OS_LEVEL" = "buster" ]; then
+    # Add cloudflare gpg key
+    sudo mkdir -p --mode=0755 /usr/share/keyrings
+    curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
 
-# If the file doesn't exist then download and install it
-if [ ! -f "$filepath/$filename" ]; then
-  #use subshell to go to filepath and download the file
-  (cd "$filepath" && wget -O "$filename" https://github.com/cloudflare/cloudflared/releases/latest/download/$filename)
+    # Add this repo to your apt repositories
+    echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared buster main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
 
-  # Install Software on RHEL/Centos
-  if [ "$os" = "redhat" ]; then
-    yum localinstall -y "$filepath/$filename"
+    # install cloudflared
+    sudo apt-get update && sudo apt-get install cloudflared
   fi
 
-  if [ "$os" = "debian" ]; then
-    dpkg -i "$filepath/$filename"
-  fi
+  if [ "$OS_LEVEL" = "bullseye" ]; then
+    # Add cloudflare gpg key
+    sudo mkdir -p --mode=0755 /usr/share/keyrings
+    curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
 
-  if [ "$os" = "suse" ]; then
-    zypper install -y "$filepath/$filename"
+    # Add this repo to your apt repositories
+    echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared bullseye main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+
+    # install cloudflared
+    sudo apt-get update && sudo apt-get install cloudflared
   fi
 fi
+
+if [ "$os" = "ubuntu" ]; then
+  OS_LEVEL=$(cat /etc/*-release | grep -w VERSION_ID | cut -d= -f2 | tr -d '"')
+
+  if [ "$OS_LEVEL" = "20.04" ]; then
+    # Add cloudflare gpg key
+    sudo mkdir -p --mode=0755 /usr/share/keyrings
+    curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+
+    # Add this repo to your apt repositories
+    echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared focal main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+
+    # install cloudflared
+    sudo apt-get update && sudo apt-get install cloudflared
+  fi
+
+  if [ "$OS_LEVEL" = "22.04" ]; then
+    # Add cloudflare gpg key
+    sudo mkdir -p --mode=0755 /usr/share/keyrings
+    curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
+
+    # Add this repo to your apt repositories
+    echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared jammy main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
+
+    # install cloudflared
+    sudo apt-get update && sudo apt-get install cloudflared
+  fi
+fi
+
 
 # Check if config.yaml or config.yml exists
 if [ ! -e /etc/cloudflared/config.yaml ] || [ ! -e /etc/cloudflared/config.yml ]; then
