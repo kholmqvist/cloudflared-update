@@ -4,6 +4,9 @@
 # October 14th 2022
 #
 
+# Include dependencies check
+. dependencies.sh
+
 set -e
 
 # Variables
@@ -44,6 +47,8 @@ if [ "$os" = "" ]; then
   exit
 fi
 
+# Check if curl is installed
+check_curl
 
 # Install Software on RHEL/Centos
 if [ "$os" = "redhat" ]; then
