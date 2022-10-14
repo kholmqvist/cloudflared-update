@@ -5,7 +5,7 @@
 #
 
 # Include dependencies check
-. $(pwd)/dependencies.sh
+. $(cd `dirname $0` && pwd)/dependencies.sh
 
 set -e
 
