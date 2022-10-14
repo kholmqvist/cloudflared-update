@@ -6,7 +6,7 @@
 
 # Include dependencies check
 DIRECTORY=`dirname $0`
-source $0/dependencies.sh
+source $DIRECTORY/dependencies.sh
 
 set -e
 
