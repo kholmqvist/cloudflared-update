@@ -11,4 +11,7 @@ function install_cloudflared_service() {
     fi
     cloudflared service install
   fi
+
+  # Restart the cloudflared service
+  systemctl restart cloudflared.service
 }

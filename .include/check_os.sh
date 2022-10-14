@@ -18,7 +18,7 @@ function check_distribution() {
   fi
 
   if [ "$DISTRO" == "Debian GNU/Linux" ]; then
-    os=""
+    os="debian"
   fi
 
   if [ "$DISTRO" == "Ubuntu" ]; then
@@ -27,7 +27,7 @@ function check_distribution() {
 
   # Exit if OS is supported
   if [ "$os" = "" ]; then
-    echo "This is not a supported distribution"
+    echo "This is not a supported distribution!"
     exit
   fi
 }

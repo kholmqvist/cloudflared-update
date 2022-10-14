@@ -22,10 +22,8 @@ if [ "$(whoami)" != "root" ]; then
   exit
 fi
 
-
 # Check if this is a supported linux distribution
 check_distribution
-
 
 # Check if curl is installed
 check_curl
@@ -48,6 +46,3 @@ fi
 
 # Install cloudflared service
 install_cloudflared_service
-
-# Restart the cloudflared service
-systemctl restart cloudflared.service
