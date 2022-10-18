@@ -41,11 +41,11 @@ function install_cloudflared() {
     fi
 
     if [ "$OS_LEVEL" = "bullseye" ]; then
-      if [ $(uname -r) = "*truenas" ]; then
-        curl -L -o ~/cloudflared-linux-amd64.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-        dpkg -i ~/cloudflared-linux-amd64.deb
-
-        exit
+      if [ $(uname -r) = *truenas ]; then
+        #curl -L -o ~/cloudflared-linux-amd64.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+        #dpkg -i ~/cloudflared-linux-amd64.deb
+        echo "this is a truenas system"
+        exit 0
       fi
       # Add cloudflare gpg key
       sudo mkdir -p --mode=0755 /usr/share/keyrings
