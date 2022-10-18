@@ -49,7 +49,7 @@ function install_cloudflared() {
       echo 'deb [signed-by=/usr/share/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared bullseye main' | sudo tee /etc/apt/sources.list.d/cloudflared.list
 
       # install cloudflared
-      sudo apt-get update && sudo apt-get install cloudflared
+      sudo apt update && sudo apt install cloudflared
     fi
   fi
 
