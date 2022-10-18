@@ -41,6 +41,12 @@ function install_cloudflared() {
     fi
 
     if [ "$OS_LEVEL" = "bullseye" ]; then
+      if [ $(uname -r) = "*truenas" ]; then
+        curl -L -o ~/cloudflared-linux-amd64.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+        dpkg -i ~/cloudflared-linux-amd64.deb
+
+        exit
+      fi
       # Add cloudflare gpg key
       sudo mkdir -p --mode=0755 /usr/share/keyrings
       curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg | sudo tee /usr/share/keyrings/cloudflare-main.gpg >/dev/null
