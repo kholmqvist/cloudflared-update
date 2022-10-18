@@ -44,7 +44,7 @@ function install_cloudflared() {
       if [ $(uname -r | tr -cd '[:alpha:]') = "truenas" ]; then
         curl -L -o ~/cloudflared-linux-amd64.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
         dpkg -i ~/cloudflared-linux-amd64.deb
-        
+        rm ~/cloudflared-linux-amd64.deb
         exit 0
       fi
       # Add cloudflare gpg key
